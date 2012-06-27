@@ -71,7 +71,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class TimerPicker extends ListActivity {
 	public static final String TAG = "DarkroomTimer.TimerPicker";
 	private static final int XML_IMPORT_DONE = 1;
-	private static final int XML_IMPORT_DUPE = 2;
 	private static final int EDIT_ID = 2;
 	private static final int DELETE_ID = 3;
 	private static final int DUPLICATE_ID = 4;
@@ -178,13 +177,11 @@ public class TimerPicker extends ListActivity {
 								}
 							}
 						}).setNegativeButton(R.string.time_picker_cancel, new DialogInterface.OnClickListener() {
-					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Toast.makeText(TimerPicker.this, "Delete cancelled.", Toast.LENGTH_SHORT).show();
 						longClickPreset = null;
 					}
 				}).setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
 					public void onCancel(DialogInterface dialog) {
 						Toast.makeText(TimerPicker.this, "Delete cancelled.", Toast.LENGTH_SHORT).show();
 						longClickPreset = null;

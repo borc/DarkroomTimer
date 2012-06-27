@@ -25,7 +25,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,7 +61,6 @@ public class PresetEditor extends Activity implements OnItemClickListener, OnChe
 	private static final int ADD_STEP  = 0x02;
 	private static final int DUP_STEP  = 0x03;
 	private static final int DEL_STEP  = 0x04;
-	private static final int MOVE_STEP = 0x05;
 	private static final int UP_STEP   = 0x06;
 	private static final int DOWN_STEP = 0x07;
 
@@ -287,8 +285,7 @@ public class PresetEditor extends Activity implements OnItemClickListener, OnChe
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public void onItemClick(AdapterView parent, View v, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		if (id == -1) {
 			selectedStep = preset.blankStep();
 			preset.addStep(selectedStep);
@@ -375,7 +372,6 @@ public class PresetEditor extends Activity implements OnItemClickListener, OnChe
 		}
 	}
 
-	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		Log.v(TAG, "in obCheckedChanged for button: " + agitateEdit);
 		agitateEdit.setEnabled(!isChecked);

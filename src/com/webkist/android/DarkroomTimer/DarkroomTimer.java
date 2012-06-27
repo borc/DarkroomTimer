@@ -458,7 +458,6 @@ public class DarkroomTimer extends Activity implements OnClickListener, OnChecke
 		}
 	}
 
-	@Override
 	public void onClick(View v) {
 		if (preset.steps.size() >= (currentStep + 1)) {
 			if (v.getId() == R.id.stepClock) {
@@ -550,7 +549,6 @@ public class DarkroomTimer extends Activity implements OnClickListener, OnChecke
 		timerRunning = flag;
 	}
 
-	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
 			startTimer();

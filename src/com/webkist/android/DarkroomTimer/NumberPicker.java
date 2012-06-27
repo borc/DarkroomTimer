@@ -18,10 +18,6 @@ package com.webkist.android.DarkroomTimer;
 
 import android.content.Context;
 import android.os.Handler;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.text.Spanned;
-import android.text.method.NumberKeyListener;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,9 +26,6 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.widget.TextView;
 import android.widget.LinearLayout;
-//import android.widget.EditText;
-
-//import com.android.internal.R;
 
 public class NumberPicker extends LinearLayout implements OnClickListener,
         OnFocusChangeListener, OnLongClickListener {
@@ -78,7 +71,6 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
     };
 
     private final TextView mText;
-    private final InputFilter mNumberInputFilter;
 
     private String[] mDisplayedValues;
     protected int mStart;
@@ -101,15 +93,12 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         this(context, attrs, 0);
     }
 
-    @SuppressWarnings({"UnusedDeclaration"})
     public NumberPicker(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs);
         setOrientation(VERTICAL);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.number_picker, this, true);
         mHandler = new Handler();
-        InputFilter inputFilter = new NumberPickerInputFilter();
-        mNumberInputFilter = new NumberRangeKeyListener();
         mIncrementButton = (NumberPickerButton) findViewById(R.id.increment);
         mIncrementButton.setOnClickListener(this);
         mIncrementButton.setOnLongClickListener(this);
@@ -300,77 +289,8 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         mDecrement = false;
     }
 
-    private static final char[] DIGIT_CHARACTERS = new char[] {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-    };
-
     private NumberPickerButton mIncrementButton;
     private NumberPickerButton mDecrementButton;
-
-    private class NumberPickerInputFilter implements InputFilter {
-        public CharSequence filter(CharSequence source, int start, int end,
-                Spanned dest, int dstart, int dend) {
-            if (mDisplayedValues == null) {
-                return mNumberInputFilter.filter(source, start, end, dest, dstart, dend);
-            }
-            CharSequence filtered = String.valueOf(source.subSequence(start, end));
-            String result = String.valueOf(dest.subSequence(0, dstart))
-                    + filtered
-                    + dest.subSequence(dend, dest.length());
-            String str = String.valueOf(result).toLowerCase();
-            for (String val : mDisplayedValues) {
-                val = val.toLowerCase();
-                if (val.startsWith(str)) {
-                    return filtered;
-                }
-            }
-            return "";
-        }
-    }
-
-    private class NumberRangeKeyListener extends NumberKeyListener {
-
-        // XXX This doesn't allow for range limits when controlled by a
-        // soft input method!
-        public int getInputType() {
-            return InputType.TYPE_CLASS_NUMBER;
-        }
-
-        @Override
-        protected char[] getAcceptedChars() {
-            return DIGIT_CHARACTERS;
-        }
-
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end,
-                Spanned dest, int dstart, int dend) {
-
-            CharSequence filtered = super.filter(source, start, end, dest, dstart, dend);
-            if (filtered == null) {
-                filtered = source.subSequence(start, end);
-            }
-
-            String result = String.valueOf(dest.subSequence(0, dstart))
-                    + filtered
-                    + dest.subSequence(dend, dest.length());
-
-            if ("".equals(result)) {
-                return result;
-            }
-            int val = getSelectedPos(result);
-
-            /* Ensure the user can't type in a value greater
-             * than the max allowed. We have to allow less than min
-             * as the user might want to delete some numbers
-             * and then type a new number.
-             */
-            if (val > mEnd) {
-                return "";
-            } else {
-                return filtered;
-            }
-        }
-    }
 
     private int getSelectedPos(String str) {
         if (mDisplayedValues == null) {

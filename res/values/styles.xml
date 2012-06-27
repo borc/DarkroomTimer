@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<style name="WindowTitleBackgroundRed" parent="@android:style/WindowTitleBackground">    
+	<style name="WindowTitleBackgroundRed">    
         <item name="android:background">#ff220000</item>
 	</style>
 	
-	<style name="WindowTitleRed" parent="@android:style/WindowTitle">
+	<style name="WindowTitleRed" parent="@android:style/TextAppearance.WindowTitle">
         <item name="android:textColor">#ffff0000</item>
     </style>
 	
